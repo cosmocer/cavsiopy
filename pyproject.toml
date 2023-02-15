@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "example_package_ceren"
+version = "0.9"
+authors = [
+  { name="ceren", email="ceren.eyiguler@usask.ca" },
+]
+description = "A package to calculate and visualize spacecraft instrument orientation"
+readme = "README.md"
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/cosmocer/cavsiopy"
+"Bug Tracker" = "https://github.com/cosmocer/cavsiopy/issues"
