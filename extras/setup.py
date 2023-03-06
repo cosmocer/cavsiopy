@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='cavsiopy',
-      version='0.9',
+      version='0.9.0',
       description='Package for finding and plotting spacecraft instrument attitude',
       long_description='Python package for calculation and visualization of spacecraft instrument pointing direction',
       classifiers=[
@@ -27,7 +27,7 @@ setup(name='cavsiopy',
 'spacecraft', 'attitude', 'orientation', 'Swarm', 'RRI', 'Euler', 'rotation matrices',
 ],
       url='http://github.com/cosmocer/cavsiopy',
-      author='E. Ceren Kalafatoglu Eyiguler, Warren Holley, Donald W. Danskin, Andrew D. Howarth, Kuldeep Pandey, Glenn C. Hussey, Robert G. Gillies',
+      author='E. Ceren Kalafatoglu Eyiguler, Warren Holley, Donald W. Danskin, Andrew D. Howarth, Kuldeep Pandey, Carley Martin, Glenn C. Hussey, Robert G. Gillies',
       author_email='ceren.eyiguler@usask.ca',
       license='MIT',
       packages=['cavsiopy'],
@@ -38,7 +38,7 @@ setup(name='cavsiopy',
           'numpy','astropy','cartopy','matplotlib','h5py','geopy','pysofa',
       ],
       zip_safe=False,
-      python_requires=">=3.6",)
+      python_requires=">=3.4",)
 
 print("... All done!")
 
