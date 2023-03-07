@@ -737,21 +737,6 @@ def icrf2itrf(path_to_files, filedate, MET, GEO, \
     using Standards of Fundamental Astronomy library
     https://www.iausofa.org/
 
-    for python: https://pypi.org/project/pysofa/
-    installation instructions:
-    https://kloppenborg.net/blog/building-sofa-for-pysofa/
-    pysofa needs a virtual env to run, because some packages are incompatible
-    with matplotlib current version. the plots cannot be modified from the
-    matplotlib interface. When you try to save a plot, the windows just
-    freezes and never recovers. in that case close the plot using plt.close().
-    In order to avoid this problem save the plot from inside of your code.
-
-    to solve the ctypes problem:
-    copy all contents of the pysofa_ctypes.py to __init__ file.
-    to solve numpy syntax incompatibility:
-    if __sofa_version < =  (2010, 12, 01):
-    change all (2010, 12, 01) to (2010, 12, 1). in __init__
-
     """
 
     GEOx, GEOy, GEOz = GEO

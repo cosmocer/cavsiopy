@@ -54,3 +54,8 @@ SyntaxError: leading zeros in decimal integer literals are not permitted; use an
 find and replace all 2010, 12, 01 with 2010, 12, 1 in __init__.py
 
 
+to solve the ctypes problem:
+copy all contents of the pysofa_ctypes.py to __init__ file.
+to solve numpy syntax incompatibility:
+if __sofa_version < =  (2010, 12, 01)
+change all (2010, 12, 01) to (2010, 12, 1). in __init__

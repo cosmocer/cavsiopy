@@ -24,8 +24,8 @@ from geopy.distance import geodesic
 
 import cavsiopy.use_rotation_matrices as RM
 
-def inst_direction_in_ned_using_icrf_to_ecef(srow, erow, Roll, Pitch, Yaw,
-                         body_inst, GEIx, GEIy, GEIz, GEIVx, GEIVy, GEIVz,
+def inst_direction_in_ned_using_icrf_to_ecef(body_inst, Roll, Pitch, Yaw,
+                         GEIx, GEIy, GEIz, GEIVx, GEIVy, GEIVz,
                          time_array, lat, lon, method_name):
         """
         Created on Thu Jul  8 13:22:03 2021
@@ -35,12 +35,18 @@ def inst_direction_in_ned_using_icrf_to_ecef(srow, erow, Roll, Pitch, Yaw,
 
         Parameters
         ----------
+            body_inst: [x, y, z] location of instrument wrt SC frame
             Roll, Pitch, Yaw: Euler angles
             lvlh_x, lvlh_y, lvlh_z: antenna x, y, z vector components in LVLH
             GEIx, GEIy, GEIz: Position of the satellite in GEI
             GEIVx, GEIVy, GEIVz: Spacecraft Velocity Components in GEI
             time_array: datetime
             lat, lon: spacecraft location in GEO_spherical
+            method_name: 
+                'oe' for rotations from SC frame to GEI/ECI using orbital
+                elements calculated from GEI r and V
+                'other' for rotations from SC frame to GEI/ECI 
+                using r and V in GEI by means ephemeris to Nadir rotation matrice
 
         Returns
         -------
@@ -60,7 +66,7 @@ def inst_direction_in_ned_using_icrf_to_ecef(srow, erow, Roll, Pitch, Yaw,
             inst_ECEF = RM.GEI2ECEF(time_array, lon, inst_GEI)
             NED_vec = RM.ECEF2NED(lat, lon, inst_ECEF)
         else:
-            # 2- rotation of SC frame to GEI/ECI frame using r and V in GEı
+            # 2- rotation of SC frame to GEI/ECI frame using r and V in GEI
             inst_GEI = RM.ORF2J2K_use_spacecraft_ephemeris(rotated_inst, \
                                         GEIx, GEIy, GEIz, GEIVx, GEIVy, GEIVz)
             # 3- rotation of GEI/ECI frame to Earth Centered Earth Fixed frame (ECEF):
@@ -247,10 +253,10 @@ def LA_sat(plat, plon, slat, slon, palt, rsat):
     return la_elev, la_azim
 
 
-def LA_inst(vec, n, m, lon, lat, OLon, OLat, size):
-
-    vec_elev=np.empty(size); vec_elev1=np.empty(size);
-    vec_azim=np.empty(size); vec_azim1=np.empty(size);
+def LA_inst(vec, n, m, lon, lat, OLon, OLat):
+    size = len(lon)
+    vec_elev=np.empty(size); vec_elev1=np.empty(size)
+    vec_azim=np.empty(size); vec_azim1=np.empty(size)
     horizontal_plane =[0, 0, -1]
     for i in range(0,size):
 
@@ -275,7 +281,7 @@ def LA_inst(vec, n, m, lon, lat, OLon, OLat, size):
         vec_elev1 = np.arccos(horizontal_plane_dot_RRI)*180.0/np.pi
         vec_elev[i]= 90-vec_elev1 # RRI dip angle
 
-    return vec_azim1, vec_azim, vec_elev
+    return vec_azim, vec_elev
 
 def calculate_los(pLat, pLon, pAlt, alt, lat, lon):
     SizeArr = len(alt)

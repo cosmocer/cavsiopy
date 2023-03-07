@@ -15,6 +15,7 @@ from matplotlib.ticker import MultipleLocator
 from mpl_toolkits.mplot3d import axes3d
 import itertools
 from matplotlib import rcParams
+import cavsiopy.misc as misc
 
 def indices_and_intervals(start_time, time_data, intval):
     """ Generates date for usage with plot titles and output filenames,
@@ -331,12 +332,13 @@ class MyAxes3D(axes3d.Axes3D):
         # disable draw grid
         zaxis.axes._draw_grid = draw_grid_old
 
-def vector_direction_plotter_connect_to_point(title, end_ind, ind1,
-                             Px, Py, Pz, x, y, z, arrlen, loc, save, *V,
-                             vector_colors={}, linestyles={},
+def vector_direction_plotter_ground_trajectory_3D(title, time_array, end_ind, ind1, 
+                             Px, Py, Pz, x, y, z, arrlen, loc, target, *V, 
+                             vector_colors={}, linestyles={}, linewidth = {},
                              labels={}, markers={}, colors={}, edgecolors={},
-                             sct_kwargs={}):
-
+                             arrowhead = {},
+                             sct_kwargs = {}):
+    
     """v: vx, vy, vz """
 
     a=0
@@ -344,14 +346,16 @@ def vector_direction_plotter_connect_to_point(title, end_ind, ind1,
     ax=plt.axes(projection='3d')
     for vec in V:
         if np.size(x)>1:
-            plt.suptitle(title, fontsize=20, y=0.96)
+            # plt.suptitle(title, fontsize=20, y=0.95)
             a+=1
             i=a-1
             ax.quiver(x[::ind1], y[::ind1], z[::ind1],
                           vec[:,0][::ind1], vec[:,1][::ind1], vec[:,2][::ind1],
-                          length=arrlen[i], color=vector_colors[i],
-                          linestyle=linestyles[i], linewidth= 2.5,
-                          arrow_length_ratio =0.35)
+                          length = arrlen[i], color = vector_colors[i], 
+                          linestyle = linestyles[i], linewidth = linewidth[i],
+                          arrow_length_ratio = arrowhead[i])
+            
+            # linewidth = 2.5, arrow_length_ratio = 0.35
             Px_vec = [Px]*len(x)
             Py_vec = [Py]*len(y)
             Pz_vec = [0.07]*len(z)
@@ -359,28 +363,30 @@ def vector_direction_plotter_connect_to_point(title, end_ind, ind1,
                 lon = [Px_vec[i], x[i]]
                 lat = [Py_vec[i], y[i]]
                 alt = [Pz_vec[i], z[i]]
-                ax.plot(lon,lat,alt,'k--',alpha=1, linewidth=0.5)
+                ax.plot(lon,lat,alt,linestyle = 'dashed', color = '#95d0fc', 
+                        alpha = .7, linewidth=1)
+                
             xmin, xmax = set_3Dplot_limits(Px, x, 5)
             ymin, ymax = set_3Dplot_limits(Py, y, 5)
             zmin, zmax = set_3Dplot_limits(Pz, z, 5)
             ax.set_xlim(xmin, xmax)
             ax.set_ylim(ymin, ymax)
             ax.set_zlim(0, np.round(max(z)+0.5))
-            ax.scatter3D(Px, Py, 0.07, **sct_kwargs)
+            # ax.scatter3D(Px, Py, 0.07, **sct_kwargs)
             plt.xticks(fontsize= 18)
             plt.yticks(fontsize= 18)
 
         else:
-            plt.suptitle(title, fontsize=14, y=0.97)
+            # plt.suptitle(title, fontsize=14, y=0.97)
             a+=1
             i=a-1
             ax.quiver(x, y, z,
-                  vec[0], vec[1], vec[2],
+                  vec[0], vec[1], vec[2], 
                   length=arrlen[i], color=vector_colors[i])
             coord_info="".join(['Lat: ', str(y), '\N{DEGREE SIGN}\n',
                               'Lon: ', str(x), '\N{DEGREE SIGN}\n',
-                              'Alt: ', str(z),
-                              '(\N{DEGREE SIGN} x 111 km/\N{DEGREE SIGN})'])
+                              'Alt: ', str(z), 
+                              '(\N{DEGREE SIGN} x 100 km/\N{DEGREE SIGN})'])
             ax.text2D(0.05, 0.95, coord_info,  fontsize=14, va='top', ha='left',
                     rotation_mode='anchor',
                     transform=ax.transAxes)
@@ -389,17 +395,54 @@ def vector_direction_plotter_connect_to_point(title, end_ind, ind1,
             lat = [Py, y]
             alt = [Pz, z]
             # ax.plot(lon,lat,alt,'k--',alpha=1, linewidth=0.5)
-            ax.scatter3D(Px, Py, 0.07, **sct_kwargs)
+            # ax.scatter3D(Px, Py, 0.07, **sct_kwargs)
             plt.xticks(fontsize= 18)
             plt.yticks(fontsize= 18)
-
-    put_legend_fnt(ax, 5, loc, 1.5, 0.5, 0.93, 12,
-                     labels=labels, linestyles= linestyles,
-                     markers=markers, colors=colors,
+   
+    misc.put_legend_fnt(ax, 5, loc, 1.5, 0.5, 1, 12,
+                     labels=labels, linestyles= linestyles, 
+                     markers=markers, colors=colors, 
                      edgecolors=edgecolors)
+    
+    for i in range(0, len(x), ind1):
+        # lon = [x[i], x[i]]
+        # lat = [y[i], y[i]]
+        # alt = [0, z[i]]
+        if y[i] < Py:
+            ax.scatter(x[i], y[i], 0.1,
+            marker='H', edgecolor='black', color='black', s=60)
 
+        else:
+            ax.scatter(x[i], y[i], 0.1,
+            marker='H', edgecolor='black', color='None', s=60)
+
+    ax.plot3D(x, y, 0.01, c = 'black', linewidth= 1.25)
+
+    #  insert the legend
+    misc.put_legend_fnt(ax, 6, loc, 0.2, 0.525, 0.90, 13,
+                     labels=labels, linestyles= linestyles, 
+                     markers=markers, colors=colors, 
+                     edgecolors=edgecolors)  
+      
+    time1 = time_array[0].strftime('%H:%M:%S')
+    time2 = time_array[-1].strftime('%H:%M:%S')
+    
+    #  insert the start and end times
+    ax.text(x[0]-0.6, y[0]-0.95, 0.3, time1, size=14)   
+    ax.text(x[-1]-0.5, y[-1]-0.2, 0.3, time2, size = 14)
+    
+    # target
+    ax.scatter3D(Px, Py, 0.01, marker = 'o', edgecolor="black", 
+              facecolor='lightgrey', s= 180)
+    if x[0] < Px:
+        ax.text(Px-.5, Py, 0.5, target, c='k', size=14, zorder=20)
+    else:
+        ax.text(Px+.5, Py, 0.5, target, c='k', size=14, zorder=20)
+    
+    import itertools
+    
     proj_ax = plt.figure().add_subplot(111, projection=ccrs.PlateCarree())
-
+        
     proj_ax.set_xlim(ax.get_xlim())
     proj_ax.set_ylim(ax.get_ylim())
     # a useful function
@@ -412,46 +455,223 @@ def vector_direction_plotter_connect_to_point(title, end_ind, ind1,
     boundary = proj_ax._get_extent_geom()
     # Project the geometry into target projection geometry
     geoms = [target_projection.project_geometry(geom, feature.crs) for geom in geoms]
-
+    
     # do not append invalid geometry
     geoms2 = []
     for i in range(len(geoms)) :
         if geoms[i].is_valid :
             geoms2.append(geoms[i])
-
+    
     geoms = geoms2
-
+    
     # intersection
     geoms = [boundary.intersection(geom) for geom in geoms]
     # geometry to path to polygon to collection
     paths = concat(geos_to_path(geom) for geom in geoms)
     polys = concat(path.to_polygons() for path in paths)
-    lc = PolyCollection(polys, edgecolor='black', facecolor='green',
+    lc = PolyCollection(polys, edgecolor='black', facecolor='green', 
                         closed=True, alpha=0.1)
-
+    
     # overlay subplots
     ax.add_collection3d(lc, zs=0)
     # arrange the view
     # nadir
-    ax.view_init(azim=-135, elev=25)
-    plt.tight_layout()
+    ax.view_init(azim=-128, elev=22)
+    plt.tight_layout()   
     plt.close(proj_ax.figure)
     from matplotlib import rcParams
-    rcParams['axes.labelpad'] = 30
+    rcParams['axes.labelpad'] = 15  
     ax.set_xlabel('Geographic Longitude (\N{DEGREE SIGN})', fontsize=18)
     ax.set_ylabel('Geographic Latitude (\N{DEGREE SIGN})', fontsize=18)
     ax.zaxis.set_rotate_label(False)  # disable automatic rotation
-    ax.set_zlabel('Altitude ( x 111 km)', rotation=90, fontsize=18)
+    ax.set_zlabel('Altitude ( x 100 km)', rotation=90, fontsize=18)
 
-
-    ax.tick_params(axis='x', which='major', labelsize=18)
+    
+    ax.tick_params(axis='x', which='major', labelsize = 18)
     ax.tick_params(axis='y', which='major', labelsize=18)
     ax.tick_params(axis='z', which='major', labelsize=18)
+    # fig.tight_layout(rect=[0, 0, 0.9,1])
     plt.tight_layout()
-    if save == 'yes':
-      f= title +'.png'
-      plt.savefig(f)
-    plt.show()
+    # fig.subplots_adjust(right=0.65)
+    f= title +'.png'
+    # plt.savefig(f)
+    # plt.show()
+    # plt.close(fig)
+
+    return fig
+
+def vector_direction_plotter_connect_to_target(title, time_array, end_ind, ind1, 
+                             Px, Py, Pz, x, y, z, arrlen, loc, target, *V, 
+                             vector_colors={}, linestyles={}, linewidth = {},
+                             labels={}, markers={}, colors={}, edgecolors={},
+                             arrowhead = {},
+                             sct_kwargs = {}):
+    
+    """v: vx, vy, vz """
+
+    a=0
+    fig = plt.figure(figsize=(12, 12))
+    ax=plt.axes(projection='3d')
+    for vec in V:
+        if np.size(x)>1:
+            # plt.suptitle(title, fontsize=20, y=0.95)
+            a+=1
+            i=a-1
+            ax.quiver(x[::ind1], y[::ind1], z[::ind1],
+                          vec[:,0][::ind1], vec[:,1][::ind1], vec[:,2][::ind1],
+                          length = arrlen[i], color = vector_colors[i], 
+                          linestyle = linestyles[i], linewidth = linewidth[i],
+                          arrow_length_ratio = arrowhead[i])
+            
+            # linewidth = 2.5, arrow_length_ratio = 0.35
+            Px_vec = [Px]*len(x)
+            Py_vec = [Py]*len(y)
+            Pz_vec = [0.07]*len(z)
+            for i in range(0, len(x), ind1):
+                lon = [Px_vec[i], x[i]]
+                lat = [Py_vec[i], y[i]]
+                alt = [Pz_vec[i], z[i]]
+                ax.plot(lon,lat,alt,linestyle = 'dashed', color = '#95d0fc', 
+                        alpha = .7, linewidth=1)
+                
+            xmin, xmax = set_3Dplot_limits(Px, x, 5)
+            ymin, ymax = set_3Dplot_limits(Py, y, 5)
+            zmin, zmax = set_3Dplot_limits(Pz, z, 5)
+            ax.set_xlim(xmin, xmax)
+            ax.set_ylim(ymin, ymax)
+            ax.set_zlim(0, np.round(max(z)+0.5))
+            # ax.scatter3D(Px, Py, 0.07, **sct_kwargs)
+            plt.xticks(fontsize= 18)
+            plt.yticks(fontsize= 18)
+
+        else:
+            # plt.suptitle(title, fontsize=14, y=0.97)
+            a+=1
+            i=a-1
+            ax.quiver(x, y, z,
+                  vec[0], vec[1], vec[2], 
+                  length=arrlen[i], color=vector_colors[i])
+            coord_info="".join(['Lat: ', str(y), '\N{DEGREE SIGN}\n',
+                              'Lon: ', str(x), '\N{DEGREE SIGN}\n',
+                              'Alt: ', str(z), 
+                              '(\N{DEGREE SIGN} x 100 km/\N{DEGREE SIGN})'])
+            ax.text2D(0.05, 0.95, coord_info,  fontsize=14, va='top', ha='left',
+                    rotation_mode='anchor',
+                    transform=ax.transAxes)
+            Pz= [4]
+            lon = [Px, x]
+            lat = [Py, y]
+            alt = [Pz, z]
+            # ax.plot(lon,lat,alt,'k--',alpha=1, linewidth=0.5)
+            # ax.scatter3D(Px, Py, 0.07, **sct_kwargs)
+            plt.xticks(fontsize= 18)
+            plt.yticks(fontsize= 18)
+   
+    # misc.put_legend_fnt(ax, 5, loc, 1.5, 0.5, 1, 12,
+    #                  labels=labels, linestyles= linestyles, 
+    #                  markers=markers, colors=colors, 
+    #                  edgecolors=edgecolors)
+    
+    # if y[0] < Py:
+    #     ax.scatter(x[0], y[0], 0.1,
+    #     marker='H', edgecolor='black', color='black', s=30)
+
+    # else:
+    #     ax.scatter(x[0], y[0], 0.1,
+    #     marker='H', edgecolor='black', color='None', s=30)
+        
+    # if y[-1] < Py:
+    #     ax.scatter(x[-1], y[-1], 0.1,
+    #     marker='H', edgecolor='black', color='black', s=30)
+
+    # else:
+    #     ax.scatter(x[-1], y[-1], 0.1,
+    #     marker='H', edgecolor='black', color='None', s=30)
+
+    # ax.plot3D(x, y, 0.01, c = 'black', linewidth= 1.25)
+
+    # #  insert the legend
+    # misc.put_legend_fnt(ax, 6, loc, 0.2, 0.525, 0.90, 13,
+    #                  labels=labels, linestyles= linestyles, 
+    #                  markers=markers, colors=colors, 
+    #                  edgecolors=edgecolors)  
+      
+    # time1 = time_array[0].strftime('%H:%M:%S')
+    # time2 = time_array[-1].strftime('%H:%M:%S')
+    
+    # #  insert the start and end times
+    # ax.text(x[0]-0.6, y[0]-0.95, 0.3, time1, size=14)   
+    # ax.text(x[-1]-0.5, y[-1]-0.2, 0.3, time2, size = 14)
+    
+    # target
+    ax.scatter3D(Px, Py, 0.01, marker = 'o', edgecolor="black", 
+              facecolor='lightgrey', s= 180)
+    if x[0] < Px:
+        ax.text(Px-.5, Py, 0.5, target, c='k', size=14, zorder=20)
+    else:
+        ax.text(Px+.5, Py, 0.5, target, c='k', size=14, zorder=20)
+    
+    import itertools
+    
+    proj_ax = plt.figure().add_subplot(111, projection=ccrs.PlateCarree())
+        
+    proj_ax.set_xlim(ax.get_xlim())
+    proj_ax.set_ylim(ax.get_ylim())
+    # a useful function
+    concat = lambda iterable: list(itertools.chain.from_iterable(iterable))
+    # geometry
+    target_projection = proj_ax.projection
+    feature = cartopy.feature.NaturalEarthFeature('physical', 'land', '10m')
+    geoms = feature.geometries()
+    # specify boundaries
+    boundary = proj_ax._get_extent_geom()
+    # Project the geometry into target projection geometry
+    geoms = [target_projection.project_geometry(geom, feature.crs) for geom in geoms]
+    
+    # do not append invalid geometry
+    geoms2 = []
+    for i in range(len(geoms)) :
+        if geoms[i].is_valid :
+            geoms2.append(geoms[i])
+    
+    geoms = geoms2
+    
+    # intersection
+    geoms = [boundary.intersection(geom) for geom in geoms]
+    # geometry to path to polygon to collection
+    paths = concat(geos_to_path(geom) for geom in geoms)
+    polys = concat(path.to_polygons() for path in paths)
+    lc = PolyCollection(polys, edgecolor='black', facecolor='green', 
+                        closed=True, alpha=0.1)
+    
+    # overlay subplots
+    # ax.add_collection3d(lc, zs=0)
+    
+    # arrange the view
+    # nadir
+    ax.view_init(azim=-90, elev=10)
+    plt.tight_layout()   
+    plt.close(proj_ax.figure)
+    from matplotlib import rcParams
+    rcParams['axes.labelpad'] = 15  
+    ax.set_xlabel('Geographic Longitude (\N{DEGREE SIGN})', fontsize=18)
+    ax.set_ylabel('Geographic Latitude (\N{DEGREE SIGN})', fontsize=18)
+    ax.zaxis.set_rotate_label(False)  # disable automatic rotation
+    ax.set_zlabel('Altitude ( x 100 km)', rotation=90, fontsize=18)
+
+    plt.axis('off')
+    plt.grid(b=None)
+    
+    # ax.tick_params(axis='x', which='major', labelsize = 18)
+    # ax.tick_params(axis='y', which='major', labelsize=18)
+    # ax.tick_params(axis='z', which='major', labelsize=18)
+    # fig.tight_layout(rect=[0, 0, 0.9,1])
+    plt.tight_layout()
+    # fig.subplots_adjust(right=0.65)
+    f= title +'.png'
+    # plt.savefig(f)
+    # plt.show()
+    # plt.close(fig)
 
     return fig
 
