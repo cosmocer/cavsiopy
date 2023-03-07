@@ -1,7 +1,5 @@
 numpy
 matplotlib
-cartopy
 astropy
 geopy
 h5py
-pysofa
