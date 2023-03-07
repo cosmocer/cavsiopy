@@ -23,7 +23,7 @@ numpy, matplotlib, astropy, cartopy, geopy, h5py
 ## Installation:
 before installing requirements: cartopy requires the below for pip
 sudo apt -y install libgeos-dev
-
+conda install -c conda-forge cartopy
 ======================================================================================
 before installing pysofa (https://kloppenborg.net/blog/building-sofa-for-pysofa/):
 compile shared c library
