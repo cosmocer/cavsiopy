@@ -18,15 +18,61 @@ This package contains routines for
 The pointing direction vectors can be obtained in GEI J2K, ECEF, NED, NEC, ICRF, ITRF.
 
 ## Requirements:
-numpy, matplotlib, astropy, cartopy, geopy
-
-## Optional:
-* spacepy: If you work with cdf files
-* h5py: If you work with HDF files
+numpy, matplotlib, astropy, cartopy, geopy, h5py
 
 ## Installation:
-Before installation please see the requirements.
+before installing requirements: cartopy requires the below for pip
+sudo apt -y install libgeos-dev
 
+======================================================================================
+before installing pysofa (https://kloppenborg.net/blog/building-sofa-for-pysofa/):
+compile shared c library
+
+sudo apt-get install python python-all-dev build-essential cmake
+
+Download and extract SOFA from the official download page
+
+After extracting SOFA, cd into the main directory and create a CMakeLists.txt file with the following content:
+
+----------------------------------------------------------------------------------------
+cmake_minimum_required(VERSION 2.6)
+
+project(sofa_c C)
+  
+# Set a few variables:
+set(LIBS ${LIBS} m)
+
+# Extract all of the source files.
+file(GLOB_RECURSE C_SOURCE . src/*.c)
+
+# Build a shared library
+add_library(sofa_c SHARED ${C_SOURCE})
+  
+# Now define the installation options
+install(TARGETS sofa_c LIBRARY DESTINATION lib)
+----------------------------------------------------------------------------------------
+
+cmake .
+make
+make install
+
+easy_install pysofa
+========================================================================================
+pysofa related problems:
+========================================================================================
+
+ModuleNotFoundError: No module named 'pysofa_ctypes'
+copy the contents of pysofa_ctypes to __init__.py
+
+=========================================================================================
+
+if __sofa_version < (2010, 12, 01):
+                                   ^
+SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers
+
+find and replace all 2010, 12, 01 with 2010, 12, 1 in __init__.py
+
+finally:
 pip install cavsiopy
 
 ## Usage:

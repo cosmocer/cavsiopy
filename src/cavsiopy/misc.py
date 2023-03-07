@@ -3,7 +3,7 @@
 """
 Created on Fri Jun 11 19:04:18 2021
 Last change: 21 OCT 2021
-This package contains miscellanous programs for:
+This module contains miscellanous programs for:
 1. legend insertion to figures (put_legend)
 2. combining images (combine_horizontal, combine_vertical)
 3. determine background colors for line plots

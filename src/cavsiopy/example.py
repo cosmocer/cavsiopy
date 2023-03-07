@@ -15,11 +15,11 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as dtformat
 from matplotlib.ticker import MultipleLocator
 
-import orientation_plotter as op
-import ephemeris_importer as ei
-import Direction_Analysis as da
-import use_rotation_matrices as RM
-import misc
+import cavsiopy.orientation_plotter as op
+import cavsiopy.ephemeris_importer as ei
+import cavsiopy.Direction_Analysis as da
+import cavsiopy.use_rotation_matrices as RM
+import cavsiopy.misc
 
 path_to_files = '/home/ceren/Documents/USASK/Data/2015-2018/'
 

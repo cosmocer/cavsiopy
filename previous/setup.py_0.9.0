@@ -29,11 +29,9 @@ setup(name='cavsiopy',
       url='http://github.com/cosmocer/cavsiopy',
       author='E. Ceren Kalafatoglu Eyiguler, Warren Holley, Donald W. Danskin, Andrew D. Howarth, Kuldeep Pandey, Carley Martin, Glenn C. Hussey, Robert G. Gillies',
       author_email='ceren.eyiguler@usask.ca',
-      license='MIT',
-      packages=['cavsiopy'],
       packages=setuptools.find_packages(where="src")
-      package_dir={'geospacepy' : 'geospacepy'},
-      license='LICENSE.txt',
+      package_dir={'cavsiopy' : 'cavsiopy'},
+      license='LICENSE.md',
       install_requires=[
           'numpy','astropy','cartopy','matplotlib','h5py','geopy','pysofa',
       ],

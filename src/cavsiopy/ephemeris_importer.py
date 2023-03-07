@@ -2,12 +2,18 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Aug  4 14:46:24 2021
+
+epmeris_importer includes functions to 
+1. import RRI ephemeris from hdf5 data file (import_rri_ephemeris)
+2. import ephemeris only related to GEI frame from hdf5 data file (import_RRI_ephemeris_GEI)
+3. import ephemeris accuracy from RRI hdf5 data file
+4. read CelesTrak TLE file parameters (import_tle_parameters)
+5. compare Celestrak TLE parameters with the calculated TLE parameters (compare_orbital)
+
 @author: ceren
 """
 import numpy as np
 import h5py
-from spacepy import pycdf
-import bisect
 import datetime
 
 def import_rri_ephemeris(file_RRI):
@@ -50,9 +56,8 @@ def import_rri_ephemeris(file_RRI):
             GEOx, GEOy, GEOz, GEOVx, GEOVy, GEOVz,\
             GEIx, GEIy, GEIz, GEIVx, GEIVy, GEIVz, roll, pitch, yaw
 
-# import only GEI position and velocity
 def import_rri_ephemeris_gei(file_RRI):
-
+# import only GEI position and velocity
     # Import RRI data of selected file
     file = h5py.File(file_RRI,'r')
 
@@ -104,7 +109,7 @@ def import_tle_parameters(filename, filedate, DOY):
     tle_ap (float): satellite argument of perigee from TLE file
     tle_raan(float): right ascension of ascending node from TLE file
     tle_ecc (float): eccentricity from TLE file
-    tle_ma (float):
+    tle_ma (float): mean anomaly
 
     @author: ceren
     """
