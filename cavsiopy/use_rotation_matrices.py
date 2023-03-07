@@ -47,8 +47,9 @@ YAW: positive is from +X towards +Y
 """
 import numpy as np
 from astropy.time import Time
-import ephemeris_importer as ei
+import cavsiopy.ephemeris_importer as ei
 import pysofa
+import cavsiopy.misc as misc
 
 def orbital_elements(X, Y, Z, Vx, Vy, Vz):
     """
@@ -785,7 +786,7 @@ def icrf2itrf(path_to_files, filedate, MET, GEO, \
     data_UT1_TAI = np.loadtxt(fname=file_UT1_TAI, skiprows=1, comments='#')
     year_UT1_TAI = data_UT1_TAI[:,0]
     UT1_TAI = data_UT1_TAI[:,5]
-    import misc
+
     index_year = misc.find_index(year_UT1_TAI, ydoy, 0.025)
 
     if np.size(index_year)==1:
