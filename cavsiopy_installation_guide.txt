@@ -35,7 +35,9 @@ cmake .
 make
 make install
 
-easy_install pysofa
+sudo ldconfig
+
+pip install -r requirements.txt
 ========================================================================================
 pysofa related problems:
 ========================================================================================

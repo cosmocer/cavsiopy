@@ -56,7 +56,7 @@ cmake .
 make
 make install
 
-easy_install pysofa
+sudo ldconfig
 ========================================================================================
 pysofa related problems:
 ========================================================================================
@@ -64,13 +64,16 @@ pysofa related problems:
 ModuleNotFoundError: No module named 'pysofa_ctypes'
 copy the contents of pysofa_ctypes to __init__.py
 
-=========================================================================================
+-----------------------------------------------------------------------------------------
 
 if __sofa_version < (2010, 12, 01):
                                    ^
 SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers
 
 find and replace all 2010, 12, 01 with 2010, 12, 1 in __init__.py
+=========================================================================================
+
+pip install -r requirements.txt
 
 finally:
 pip install cavsiopy
