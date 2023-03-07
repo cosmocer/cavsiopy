@@ -21,7 +21,7 @@ copyright = '2023, Ceren Eyiguler, Warren Holley, Andrew Howarth, Donald Danskin
 author = 'Ceren Eyiguler, Warren Holley, Andrew Howarth, Donald Danskin, Kuldeep Pandey, Glenn Hussey, Robert G. Gillies'
 
 # The full version, including alpha/beta/rc tags
-release = '0.9.4'
+release = '0.9.5'
 
 
 # -- General configuration ---------------------------------------------------
