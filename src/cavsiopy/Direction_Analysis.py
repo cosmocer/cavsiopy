@@ -14,7 +14,7 @@ Created on Thu May  6 14:32:10 2021
 
 import numpy as np
 
-import cavsiopy.ephemeris_importer as ei
+import ephemeris_importer as ei
 
 import datetime
 
@@ -22,7 +22,7 @@ import math as m
 
 from geopy.distance import geodesic
 
-import cavsiopy.use_rotation_matrices as RM
+import use_rotation_matrices as RM
 
 def inst_direction_in_ned_using_icrf_to_ecef(srow, erow, Roll, Pitch, Yaw,
                          body_inst, GEIx, GEIy, GEIz, GEIVx, GEIVy, GEIVz,

@@ -7,8 +7,7 @@ This module contains miscellanous programs for:
 1. legend insertion to figures (put_legend)
 2. combining images (combine_horizontal, combine_vertical)
 3. determine background colors for line plots
-4. marking specific times on map(mark_onmap)
-    and altitude plots(mark_altitudeplots)
+4. marking specific times on map(mark_onmap) and altitude plots(mark_altitudeplots)
 5. annotating selected points: annotate_onmap, annotate_3D
 6. finding index of desired values in parameters: find_index
 7. finding where magnetic dip equals elevation angle

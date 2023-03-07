@@ -12,7 +12,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('/home/ceren/Documents/GitHub/cavsiopy/cavsiopy/src/'))
+sys.path.insert(0, os.path.abspath('/home/ceren/Documents/GitHub/cavsiopy/src/cavsiopy/'))
 
 # -- Project information -----------------------------------------------------
 
@@ -21,7 +21,7 @@ copyright = '2023, Ceren Eyiguler, Warren Holley, Andrew Howarth, Donald Danskin
 author = 'Ceren Eyiguler, Warren Holley, Andrew Howarth, Donald Danskin, Kuldeep Pandey, Glenn Hussey, Robert G. Gillies'
 
 # The full version, including alpha/beta/rc tags
-release = '0.9'
+release = '0.9.4'
 
 
 # -- General configuration ---------------------------------------------------
@@ -44,8 +44,6 @@ exclude_patterns = []
 def setup(app):
     app.add_css_file('my_theme.css')
 
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
 #
 html_theme = 'sphinxdoc'
 
@@ -53,4 +51,3 @@ html_theme = 'sphinxdoc'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
-

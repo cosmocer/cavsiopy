@@ -47,7 +47,7 @@ YAW: positive is from +X towards +Y
 """
 import numpy as np
 from astropy.time import Time
-import cavsiopy.ephemeris_importer as ei
+import ephemeris_importer as ei
 import pysofa
 
 def orbital_elements(X, Y, Z, Vx, Vy, Vz):
