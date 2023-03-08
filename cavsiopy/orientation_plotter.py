@@ -15,7 +15,7 @@ from matplotlib.ticker import MultipleLocator
 from mpl_toolkits.mplot3d import axes3d
 import itertools
 from matplotlib import rcParams
-import cavsiopy.misc as misc
+import misc as misc
 
 def indices_and_intervals(start_time, time_data, intval):
     """ Generates date for usage with plot titles and output filenames,
