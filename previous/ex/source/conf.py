@@ -17,11 +17,11 @@ sys.path.insert(0, os.path.abspath('/home/ceren/Documents/GitHub/cavsiopy/cavsio
 # -- Project information -----------------------------------------------------
 
 project = 'cavsiopy'
-copyright = '2023, Ceren Eyiguler, Warren Holley, Andrew Howarth, Donald Danskin, Kuldeep Pandey, Carley Martin, Glenn Hussey, Robert G. Gillies'
-author = 'Ceren Eyiguler, Warren Holley, Andrew Howarth, Donald Danskin, Kuldeep Pandey, Carley Martin, Glenn Hussey, Robert G. Gillies'
+copyright = '2023, Ceren Eyiguler, Warren Holley, Andrew Howarth, Donald Danskin, Kuldeep Pandey, Glenn Hussey, Robert G. Gillies'
+author = 'Ceren Eyiguler, Warren Holley, Andrew Howarth, Donald Danskin, Kuldeep Pandey, Glenn Hussey, Robert G. Gillies'
 
 # The full version, including alpha/beta/rc tags
-release = '0.9.6'
+release = '0.9.5'
 
 
 # -- General configuration ---------------------------------------------------
