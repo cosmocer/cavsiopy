@@ -1,10 +1,10 @@
 # cavsiopy: Calculation and Visualization of Spacecraft Instrument Orientation
 
 ## Description:
-cavsiopy imports the ephemerides and attitude information of the spacecraft and calculates the pointing direction of an instrument onboard.
+cavsiopy imports the ephemerides and attitude information of the spacecraft and calculates the pointing direction of an instrument onboard. 
 
 ## Table of Contents:
-This package contains routines for
+cavsiopy package contains routines for
 1. Finding the orientation of a spacecraft
 2. Finding the look direction of an instrument on-board the spacecraft
 3. Calculation of the look angles of the spacecraft (elevation and azimuth)
@@ -12,15 +12,22 @@ This package contains routines for
 5. Calculation of the distance between the spacecraft and a designated point on the ground
 6. Calculation of the line-of-sight direction vector from the spacecraft to the ground point
 7. Transformation routines for the transformations between GEI J2K, ECEF, NED, NEC, ICRF, ITRF reference frames.
-8. Visualization of spacecraft and instrument direction in 2D and 3D (simple or overlaid on geographical regions of the Earth below the satellite trajectory).
+8. Visualization of spacecraft and instrument direction in 2D and 3D (overlaid on geographic map).
 9. Rotation matrices for rotations by x, y, z axes
 
 The pointing direction vectors can be obtained in GEI J2K, ECEF, NED, NEC, ICRF, ITRF.
 
-## Requirements:
-numpy, matplotlib, astropy, cartopy, geopy, h5py
+## Dependencies:
+numpy, matplotlib, astropy, geopy, h5py, cartopy, pysofa
 
 ## Installation:
+It is strongly suggested to install cavsiopy in a separate environment. 
+
+numpy, matplotlib, astropy, geopy, h5py can be installed using 
+pip install -r requirements.txt
+
+
+
 before installing requirements: cartopy requires the below for pip
 sudo apt -y install libgeos-dev
 conda install -c conda-forge cartopy

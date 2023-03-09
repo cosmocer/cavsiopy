@@ -62,6 +62,8 @@ def orbital_elements(X, Y, Z, Vx, Vy, Vz):
 
     Returns
     -------
+        e: float
+            eccentricity
         raan: float
             Right ascension of ascending node
         inc: float
